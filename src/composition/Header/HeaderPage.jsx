@@ -3,10 +3,11 @@ import {Link} from "react-router-dom"
 import Navigation from "./Navigation/Navigation"
 import PropTypes from 'prop-types'
 import { useSelector } from "react-redux/es/hooks/useSelector"
-import {selectorFavorites} from "../../store/selectors"
-function HeaderPage({ shop}) {
+import {selectorFavorites, selectorShop} from "../../store/selectors"
+function HeaderPage() {
     const favorite = useSelector(selectorFavorites)
-    console.log("FAVORITE",favorite)
+   const shop= useSelector(selectorShop)
+    
     return (
         <header>
             <Link to="/"><img className="logo" src="./public/icons/logo.png" alt="logo"></img></Link>

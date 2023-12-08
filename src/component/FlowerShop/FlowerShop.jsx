@@ -4,12 +4,13 @@ import Card from "../Card/Card"
 import { actionFetchProduct } from "../../store/actions.js"
 import { useDispatch } from "react-redux"
 import {useSelector} from "react-redux"
-import { selectFlowerShopArr } from "../../store/selectors.js"
-// import { selectFavorites } from "../../store/selectors.js"
+import { selectFlowerShopArr} from "../../store/selectors.js"
+
 
 function FlowerShop({ handleShop, handleFavorite, toggleFavorite,favorite }) {
     const dispatch = useDispatch()
     const flowersShopArr = useSelector(selectFlowerShopArr)
+
     useEffect(() => {
         dispatch(actionFetchProduct())
     }, [])

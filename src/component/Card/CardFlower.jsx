@@ -7,9 +7,9 @@ import './Card.scss'
 import {IoIosHeart} from 'react-icons/io'
 import {useSelector,useDispatch} from "react-redux"
 import { selectorIsModal } from "../../store/selectors" 
-import { actionHandleFavorite, actionModal } from "../../store/actions"  
-
-function CardFlower({ cardflower, handleShop ,isFavorite }) {
+import { actionHandleFavorite,actionAddToShop, actionModal } from "../../store/actions"  
+ 
+function CardFlower({ cardflower, handleShop ,isFavorite}) {
     const {
         title,
         cost, 
@@ -18,14 +18,13 @@ function CardFlower({ cardflower, handleShop ,isFavorite }) {
     const dispatch = useDispatch()
     const isModal = useSelector(selectorIsModal)
     const closeSecondModal = () => {
-        
-            dispatch(actionModal(null));
-      
+         dispatch(actionModal(null));
     };
   
     const [isAddedToCart, setIsAddedToCart] = useState(false);
     const addToCart = (card) => {
-        handleShop(card);
+        // handleShop(card);
+         dispatch(actionAddToShop(card))
         setIsAddedToCart(true)
         alert("Товар додано до кошика, приємних покупок!")
         // 'Додати до кошика' : 'Додано' 
@@ -38,7 +37,8 @@ function CardFlower({ cardflower, handleShop ,isFavorite }) {
 }, [isAddedToCart, dispatch]);
     const toggleFavorite = () => {
         dispatch(actionHandleFavorite(cardflower))
-        console.log("cardflower======>>>>",cardflower)
+        console.log("cardflower======>>>>", cardflower)
+        //  handleFavorite()
     };
     
     return (

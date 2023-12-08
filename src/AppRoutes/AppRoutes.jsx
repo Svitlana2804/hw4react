@@ -1,29 +1,27 @@
 
 import { Route, Routes } from "react-router-dom"
 import { useState, useEffect } from 'react'
-// import './App.css'
 import Layout from "../Layout/Layout"
 import FlowerShop from '../component/FlowerShop/FlowerShop'
 import FavoritePage from '../pages/Favorite/Favorite'
 import BasketPage from '../pages/Basket/Basket'
 import NotPage from '../pages/NotPage/NotPage'
 import { useDispatch, useSelector } from "react-redux"
-import { selectorFavorites, selectorShop } from "../store/selectors"
-import { actionToggleFavorire } from "../store/actions"
-import { actionBasket } from "../store/actions"
+import { actionToggleFavorire , actionAddToShop} from "../store/actions"
 import { actionHandleFavorite } from "../store/actions"
+import { selectorShop } from "../store/selectors"
 
 
+const shopDataFromLocalStorage = localStorage.getItem('shopData');
+const inizializationShop = JSON.parse(shopDataFromLocalStorage) || [];
 
-const inizializationShop = JSON.parse(window.localStorage.getItem('shopData')) || [];
 const inizializationFavorite = JSON.parse(window.localStorage.getItem('favoriteData')) || [];
  
-
 function AppRoutes() {
   const dispatch = useDispatch()
+  const basket=useSelector(selectorShop)
   const [shop, setShop] = useState(inizializationShop)
 const handleShop = (item) => {
-
   setShop([...shop, item])
 };
 
@@ -31,8 +29,7 @@ const handleShop = (item) => {
   const handleFavorite = (item) => {
     const favoriteCard=favorite.find((card) => {
      return item.artc === card.artc
-       
-    
+
    })
   if (favoriteCard) {
     // Видалення елемента, якщо він вже є в улюблених
@@ -45,29 +42,20 @@ const handleShop = (item) => {
 };
   const [isFavorite, setIsFavorite] = useState(false);
     const toggleFavorite = () => {
-    handleFavorite();
+    
     setIsFavorite(!isFavorite);
     };
   // console.log('shop', shop);
   console.log('favorite', favorite);
   
   useEffect(() => {
-    dispatch(actionBasket())
-    localStorage.setItem('shopData', JSON.stringify(shop));
-    
-  }, [shop]);
+    localStorage.setItem('shopData',JSON.stringify(basket))
+  }, [basket]);
 
-  // console.log(shop)
-  
   useEffect(() => {
-     console.log('favorite=====>>>>', favorite);
-    localStorage.setItem('favoriteData', JSON.stringify(favorite)); 
-    dispatch(actionHandleFavorite())
-
-    dispatch(actionToggleFavorire());
-
+  dispatch(actionHandleFavorite())
+dispatch(actionToggleFavorire());
   }, [favorite]);
-
   
  
   return (
